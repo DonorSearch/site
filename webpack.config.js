@@ -9,7 +9,7 @@ var config = {
   entry: APP_DIR + '/client.js',
   output: {
     path: BUILD_DIR,
-    filename: 'app.js'
+    filename: 'bundle.js'
   },
   devServer:{
     host:"0.0.0.0"  

@@ -1,7 +1,8 @@
 import * as React from 'react'
-
+import * as Relay from 'react-relay'
 class Header extends React.Component {
     render() {
+        const me = this.props.viewer.me;
         return <header style={{ minWidth: "770px" }}>
             <div className="container">
                 <div className="navbar-header">
@@ -63,37 +64,60 @@ class Header extends React.Component {
                         </li>
                         <li className="dropdown">
                             <a  style={{ color: "rgb(255, 214, 0) !important" }} href="/help?from=ds_topmenu">
-                                <span className="glyphicon glyphicon-heart"></span>&nbsp;Поддержать проект</a>
+                                <span className="glyphicon glyphicon-heart"></span>&nbsp; Поддержать проект</a>
                         </li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                     </ul>
-                    <ul className="nav navbar-nav navbar-right" data-frame="MainBox/UserAuthTop">
-                        <li data-name="menu_auth" className="dropdown">
-                            <img src="https://st.drsh.org/i/NjkzMzg/ab7d126a8174681_35_35.jpg" data-name="user_avatar" />
-                        </li>
-                        <li data-name="menu_auth" className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <span data-name="user_name" title="Виталий" checked="checked">Архипов Виталий</span> <b className="caret"></b>
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li><a data-name="link_profile_show" href="/users/id12529217">Моя страница</a></li>
-                                <li className="divider"></li>
-                                <li><a href="/profile?tab=personal">Мой профиль</a></li>
-                                <li><a href="/profile?tab=messages">Мои сообщения</a></li>
-                                <li><a href="/profile?tab=contacts">Мои контакты</a></li>
-                                <li className="divider"></li>
-                                <li className="dropdown-header divider-header"><span>Донор</span></li>
-                                <li><a href="/profile?tab=donations">Мои кроводачи</a></li>
-                                <li><a href="/profile?tab=donor_notifies">Настройки уведомлений</a></li>
-                                <li className="divider"></li>
-                                <li><a href="/logout">Выход</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    {me ?
+                        <ul className="nav navbar-nav navbar-right" data-frame="MainBox/UserAuthTop">
+                            <li data-name="menu_auth" className="dropdown">
+                                <img src={me.avatarUrl} data-name="user_avatar" />
+                            </li>
+                            <li data-name="menu_auth" className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                                    <span data-name="user_name" title="Виталий" checked="checked">{me.firstName} {me.lastName}</span> <b className="caret"></b>
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><a data-name="link_profile_show" href={"/users/" + me.userId}>Моя страница</a></li>
+                                    <li className="divider"></li>
+                                    <li><a href="/profile?tab=personal">Мой профиль</a></li>
+                                    <li><a href="/profile?tab=messages">Мои сообщения</a></li>
+                                    <li><a href="/profile?tab=contacts">Мои контакты</a></li>
+                                    <li className="divider"></li>
+                                    <li className="dropdown-header divider-header"><span>Донор</span></li>
+                                    <li><a href="/profile?tab=donations">Мои кроводачи</a></li>
+                                    <li><a href="/profile?tab=donor_notifies">Настройки уведомлений</a></li>
+                                    <li className="divider"></li>
+                                    <li><a href="/logout">Выход</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        :
+                        <ul className="nav navbar-nav navbar-right" data-frame="MainBox/UserAuthTop" >
+                            <li data-name="menu_not_auth">
+                                <a href="/auth/">Войти</a>
+                            </li>
+                        </ul> }
                 </nav>
             </div>
         </header>
     }
+
 }
-export default Header
+Header.propTypes = {
+    viewer: React.PropTypes.any
+}
+
+export default Relay.createContainer(Header, {
+    fragments: {
+        viewer: () => Relay.QL`fragment on Viewer {
+        me{
+            userId
+            firstName
+            lastName
+            avatarUrl(width:35,height:35)
+        }
+    }`
+    }
+})
