@@ -21,5 +21,10 @@
   },
   "ignore": [
     "./lib"
-  ]
+  ],
+  "globals": {
+    "window": true,
+    "screen" : true,
+    "console": true
+  }  
 }

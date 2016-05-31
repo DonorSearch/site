@@ -1,14 +1,8 @@
 import ViewerQueries from './ViewerQueries';
-import * as React from 'react'
 import StartRoute from './routes/start'
 import ReviewsRoute from './routes/reviews'
+import AuthPage from './components/auth'
 import App from './routes/app'
-class Test extends React.Component {
-    render() {
-        return <div>test</div>
-    }
-}
-
 export default [
     {
         path: '/',
@@ -30,8 +24,11 @@ export default [
         },
         childRoutes: [
             {
-                path: 'test',
-                component: Test
+                path: 'auth',
+                components: {
+                    children: AuthPage,
+                    rightBlock: "hide"
+                }
             },
             {
                 path: 'reviews',

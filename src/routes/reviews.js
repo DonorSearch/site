@@ -7,18 +7,26 @@ class ReviewsRoute extends React.Component {
     render() {
         return <div>
             <Helmet title="Отзывы о проекте DonorSearch" />
-            <ReviewsComponent viewer={this.props.viewer} />
+            <ReviewsComponent {...this.props} />
         </div>
     }
 }
 ReviewsRoute.propTypes = {
-    viewer: React.PropTypes.object
+    viewer: React.PropTypes.object,
+    relay: React.PropTypes.object
 }
 export default Relay.createContainer(ReviewsRoute, {
+    initialVariables: {
+        first: 10,
+        step: 10
+    },
     fragments: {
         viewer: () => Relay.QL`      
             fragment on Viewer {
-                recipientReviews(first:10){
+                recipientReviews(first:$first){
+                    pageInfo{
+                        hasNextPage
+                    }
                     edges{
                         node{
                             id

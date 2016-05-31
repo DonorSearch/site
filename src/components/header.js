@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {Link} from 'react-router'
 import * as Relay from 'react-relay'
 class Header extends React.Component {
     render() {
@@ -7,7 +8,7 @@ class Header extends React.Component {
             <div className="container">
                 <div className="navbar-header">
                     <img src="/img/logo_white.png" style={{ height: "30px", float: "left", marginTop: "8px", marginLeft: "9px" }} />
-                    <a  className="navbar-brand" href="/">DonorSearch</a>
+                    <Link className="navbar-brand" to="/">DonorSearch</Link>
                 </div>
                 <nav className="collapse navbar-collapse bs-navbar">
                     <ul className="nav navbar-nav">

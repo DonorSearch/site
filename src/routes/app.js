@@ -1,4 +1,3 @@
-import * as React from 'react'
 import * as Relay from 'react-relay'
 import App from './../components/app'
 import Header from './../components/header'

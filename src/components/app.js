@@ -3,7 +3,6 @@ import Header from './header'
 import Footer from './footer'
 class App extends React.Component {
     render() {
-        console.log("props",this.props)
         const showRightBlock = this.props.rightBlock.type == "show" ? true : false
         return <div>
             <Header viewer={this.props.viewer} />
